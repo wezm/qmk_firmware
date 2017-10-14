@@ -286,19 +286,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
     case EMAIL:
-      SEND_STRING(_EMAIL);
+      if (record->event.pressed) {
+        SEND_STRING(_EMAIL);
+      }
       return false;
       break;
     case WMAIL:
-      SEND_STRING(_WMAIL);
+      if (record->event.pressed) {
+        SEND_STRING(_WMAIL);
+      }
       return false;
       break;
     case FNAME:
-      SEND_STRING("Wesley");
+      if (record->event.pressed) {
+        SEND_STRING("Wesley");
+      }
       return false;
       break;
     case LNAME:
-      SEND_STRING("Moore");
+      if (record->event.pressed) {
+        SEND_STRING("Moore");
+      }
       return false;
       break;
   }
