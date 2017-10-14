@@ -13,3 +13,15 @@ Derived from rev4 default layout.
   * Macros
   * Arrow keys on HJKL where they belong
   * Del on Backspace
+
+## Building and Programming
+
+Build:
+
+    make planck-rev4-wezm
+
+Program (Linux):
+
+Enter the bootloader (Raise Lower Q), then run:
+
+    sudo make planck-rev4-wezm-dfu
