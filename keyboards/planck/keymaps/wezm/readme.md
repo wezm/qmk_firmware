@@ -13,6 +13,8 @@ Derived from rev4 default layout.
   * Macros
   * Arrow keys on HJKL where they belong
   * Del on Backspace
+* Add gaming layer
+  * Move WASD down a row and add number keys across the top row
 
 ## Building and Programming
 

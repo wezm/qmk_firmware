@@ -32,6 +32,7 @@ enum planck_layers {
   _PLOVER,
   _ADJUST,
   _FUNCTION,
+  _STARDEW_VALLEY,
 };
 
 enum planck_keycodes {
@@ -43,6 +44,8 @@ enum planck_keycodes {
   RAISE,
   BACKLIT,
   EXT_PLV,
+  STARDEW_VALLEY,
+  EXIT_STARDEW_VALLEY,
   // Macros
   EMAIL,
   WMAIL, // Work email
@@ -174,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = {
   {_______, RESET,   DEBUG,   _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, KC_DEL },
-  {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  PLOVER,  _______},
+  {_______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  PLOVER,  STARDEW_VALLEY},
   {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
 },
@@ -197,6 +200,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {KC_LCTL, _______, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RCTL}
 },
 
+[_STARDEW_VALLEY] = {
+  {KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_BSPC},
+  {LT_TAB,  KC_C,    KC_W,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
+  {KC_LSFT, KC_A,    KC_S,    KC_D,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_ENT},
+  {KC_LCTL, _______, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   EXIT_STARDEW_VALLEY}
+},
 
 };
 
@@ -282,6 +291,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           PLAY_SONG(plover_gb_song);
         #endif
         layer_off(_PLOVER);
+      }
+      return false;
+      break;
+    case STARDEW_VALLEY:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          stop_all_notes();
+          PLAY_SONG(plover_song);
+        #endif
+        layer_off(_RAISE);
+        layer_off(_LOWER);
+        layer_off(_ADJUST);
+        layer_on(_STARDEW_VALLEY);
+      }
+      return false;
+      break;
+    case EXIT_STARDEW_VALLEY:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(plover_gb_song);
+        #endif
+        layer_off(_STARDEW_VALLEY);
       }
       return false;
       break;
