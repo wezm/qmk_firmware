@@ -7,6 +7,7 @@ Split keyboard firmware for Arduino Pro Micro or other ATmega32u4
 based boards.
 
 **Hardware files for the Let's Split are now stored at http://qmk.fm/lets_split/**
+**Hardware files for the sockets version can be found at https://github.com/dumle29/let-s-Split-v2/tree/socket-reverseable**
 
 ## Build Guide
 
@@ -14,12 +15,14 @@ A build guide for putting together the Let's Split v2 can be found here: [An Ove
 
 There is additional information there about flashing and adding RGB underglow.
 
+A build guide for putting together the sockets version can be found here: *Guide will be made and linked here when the PCBs have been received and tested*
+
 ## First Time Setup
 
 Download or clone the `qmk_firmware` repo and navigate to its top level directory. Once your build environment is setup, you'll be able to generate the default .hex using:
 
 ```
-$ make lets_split-rev2-default
+$ make lets_split/rev2:default
 ```
 
 You will see a lot of output and if everything worked correctly you will see the built hex file:
@@ -32,7 +35,7 @@ If you would like to use one of the alternative keymaps, or create your own, cop
 
 
 ```
-$ make lets_split-rev2-YOUR_KEYMAP_NAME
+$ make lets_split/rev2:YOUR_KEYMAP_NAME
 ```
 
 If everything worked correctly you will see a file:
@@ -115,8 +118,8 @@ not be very difficult to adapt it to support more if required.
 
 Flashing
 -------
-From the top level `qmk_firmware` directory run `make KEYBOARD-SUBPROJECT-KEYMAP-avrdude` for automatic serial port resolution and flashing.
-Example: `make lets_split-rev2-default-avrdude`
+From the top level `qmk_firmware` directory run `make KEYBOARD:KEYMAP:avrdude` for automatic serial port resolution and flashing.
+Example: `make lets_split/rev2:default:avrdude`
 
 
 Choosing which board to plug the USB cable into (choosing Master)

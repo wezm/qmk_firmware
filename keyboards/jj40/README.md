@@ -10,7 +10,7 @@ Hardware Availability: [AliExpress](https://www.aliexpress.com/store/product/jj4
 
 Make example for this keyboard (after setting up your build environment):
 
-    make jj40-program
+    make jj40:default:program
 
 See [build environment setup](https://docs.qmk.fm/build_environment_setup.html) then the [make instructions](https://docs.qmk.fm/make_instructions.html) for more information.
 
@@ -48,3 +48,6 @@ $ bootloadHID -r jj40_default.hex
    done, just reflash the board with the original firmware.
 2. Sometimes USB hubs can act weird, so try connecting the board directly
    to your computer or plugging/unplugging the USB hub.
+3. If you get an error such as "Resource Unavailable" when attemting to flash
+   on Linux, you may want to compile and run `tools/usb_detach.c`. See `tools/README.md`
+   for more info.
