@@ -134,21 +134,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Plover layer (http://opensteno.org)
  * ,-----------------------------------------------------------------------------------.
- * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |   S  |   T  |   P  |   H  |   *  |   *  |   F  |   P  |   L  |   T  |   D  |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |   S  |   K  |   W  |   R  |   *  |   *  |   R  |   B  |   G  |   S  |   Z  |
+ * |   #  |   #  |   #  |   #  |   #  | Exit |   #  |   #  |   #  |   #  |   #  |   #  |
+ * |------+------+------+------+-------------+------+------+------+------+------+------|
+ * |   S  |   T  |   P  |   H  |   *  | Esc  |   *  |   F  |   P  |   L  |   T  |   D  |
+ * |------+------+------+------+------|------+------+------+------+------+------+------|
+ * |   S  |   K  |   W  |   R  |   *  | Enter|   *  |   R  |   B  |   G  |   S  |   Z  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Exit |      |      |   A  |   O  |             |   E  |   U  |      |      |      |
+ * | Ctrl |  Alt |  GUI |   A  |   O  | Shift|   E  |   U  | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
 
 [_PLOVER] = {
-  {KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1,    KC_1   },
-  {XXXXXXX, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC},
-  {XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
-  {EXT_PLV, XXXXXXX, XXXXXXX, KC_C,    KC_V,    XXXXXXX, XXXXXXX, KC_N,    KC_M,    XXXXXXX, XXXXXXX, XXXXXXX}
+  {KC_1,    KC_1,    KC_1,    KC_1,    KC_1,  EXT_PLV,   KC_1,    KC_1,    KC_1,    KC_1,      KC_1,   KC_1   },
+  {KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,  KC_ESC,    KC_Y,    KC_U,    KC_I,    KC_O,      KC_P,   KC_LBRC},
+  {KC_A,    KC_S,    KC_D,    KC_F,    KC_G,  KC_ENT,    KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN,   KC_QUOT},
+  {KC_LCTL, KC_LALT, KC_LGUI, KC_C,    KC_V,  KC_LSFT,   KC_N,    KC_M, KC_LEFT, KC_DOWN,     KC_UP,   KC_RGHT}
 },
 
 /* Adjust (Lower + Raise)
