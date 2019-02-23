@@ -121,7 +121,7 @@ enum keyboard_macros {
 
 #define M_CP_CT             M(MACRO_COPY_CUT)
 
-#define M_COPY              KC_FN1
+#define M_COPY              MACROTAP(MACRO_COPY_CUT)
 
 #define SC_UNDO             LCTL(KC_Z)
 #define SC_REDO             LCTL(KC_Y)
@@ -135,10 +135,8 @@ enum keyboard_macros {
 #define SC_CCLS             LCTL(KC_F4)
 
 #define TG_NKRO             MAGIC_TOGGLE_NKRO
-#define OS_SHFT             KC_FN0
+#define OS_SHFT             OSM(MOD_LSFT)
 
-#define _______             KC_TRNS
-#define XXXXXXX             KC_NO
 #define ________________    _______, _______
 #define XXXXXXXXXXXXXXXX    XXXXXXX, XXXXXXX
 
@@ -305,11 +303,6 @@ void persistent_default_layer_set(uint16_t default_layer)
   default_layer_set(default_layer);
 }
 
-const uint16_t PROGMEM fn_actions[] = {
-  [0] = ACTION_MODS_ONESHOT(MOD_LSFT),
-  [1] = ACTION_MACRO_TAP(MACRO_COPY_CUT),
-};
-
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
 
@@ -406,21 +399,21 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
   case MACRO_BREATH_SPEED_INC:
     if (record->event.pressed)
     {
-      breathing_speed_inc(1);
+      breathing_period_inc();
     }
     break;
 
   case MACRO_BREATH_SPEED_DEC:
     if (record->event.pressed)
     {
-      breathing_speed_dec(1);
+      breathing_period_dec();
     }
     break;
 
   case MACRO_BREATH_DEFAULT:
     if (record->event.pressed)
     {
-      breathing_defaults();
+      breathing_period_default();
     }
     break;
 
@@ -435,7 +428,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     if (record->event.pressed)
     {
       layer_on(LAYER_UPPER);
-      breathing_speed_set(2);
+      breathing_period_set(2);
       breathing_pulse();
       update_tri_layer(LAYER_LOWER, LAYER_UPPER, LAYER_ADJUST);
     }
@@ -450,7 +443,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     if (record->event.pressed)
     {
       layer_on(LAYER_LOWER);
-      breathing_speed_set(2);
+      breathing_period_set(2);
       breathing_pulse();
       update_tri_layer(LAYER_LOWER, LAYER_UPPER, LAYER_ADJUST);
     }
@@ -464,13 +457,13 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
   case MACRO_FUNCTION:
     if (record->event.pressed)
     {
-      breathing_speed_set(3);
+      breathing_period_set(3);
       breathing_enable();
       layer_on(LAYER_FUNCTION);
     }
     else
     {
-      breathing_speed_set(1);
+      breathing_period_set(1);
       breathing_self_disable();
       layer_off(LAYER_FUNCTION);
     }
