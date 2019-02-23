@@ -153,8 +153,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifdef AUDIO_ENABLE
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
+  float fnlock_song[][2]     = SONG(E__NOTE(_F5));
+  float fnlock_off_song[][2]  = SONG(E__NOTE(_C4));
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -189,7 +189,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
           stop_all_notes();
-          PLAY_SONG(plover_song);
+          PLAY_SONG(fnlock_song);
         #endif
         layer_off(_RAISE);
         layer_off(_LOWER);
@@ -201,7 +201,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case FNEXIT:
       if (record->event.pressed) {
         #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_gb_song);
+          PLAY_SONG(fnlock_off_song);
         #endif
         layer_off(_FUNCTION);
       }
