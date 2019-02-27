@@ -39,6 +39,8 @@ enum preonic_keycodes {
   WMAIL, // Work email
   FNAME, // First name
   LNAME, // Last name
+  REGRDS, // E-mail sign off
+  PHONE, // Phone number
   FNLOCK,
   FNEXIT
 };
@@ -131,22 +133,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Function (Hold Tab)
  * ,-----------------------------------------------------------------------------------.
- * | Esc  | FName| Email| Work |      |      |      |      |      |      |      | PgUp |
+ * | Esc  |      | Email| Work |      |      |      |      |      |      |Phone | PgUp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      | PgDn |
+ * |      |      | FName|      |      |      |      |      |      |      |      | PgDn |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |      |      |      |      |      | Left |  Up  | Down | Right|      |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      | LName|      |      |  Up  |      |
+ * |      |      |      |      |      |      |      | LName|      |Regrds|  Up  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      | Left | Down | Right|
  * `-----------------------------------------------------------------------------------'
  */
 [_FUNCTION] = LAYOUT_preonic_grid( \
-  FNEXIT,  FNAME,   EMAIL,   WMAIL,   _______, _______, _______, _______, _______, _______, _______, KC_PGUP, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PGDN, \
-  _______, _______, _______, _______, KC_F,    KC_G,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, LNAME,   _______, _______, KC_UP,   _______, \
+  FNEXIT,  _______, EMAIL,   WMAIL,   _______, _______, _______, _______, _______, _______, PHONE,   KC_PGUP, \
+  _______, _______, FNAME,   _______, _______, _______, _______, _______, _______, _______, _______, KC_PGDN, \
+  _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, LNAME,   _______, REGRDS,  KC_UP,   _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT  \
 )
 
@@ -228,6 +230,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case LNAME:
       if (record->event.pressed) {
         SEND_STRING("Moore");
+      }
+      return false;
+      break;
+    case REGRDS:
+      if (record->event.pressed) {
+        SEND_STRING("Regards," SS_TAP(X_ENTER) "Wes");
+      }
+      return false;
+      break;
+    case PHONE:
+      if (record->event.pressed) {
+        SEND_STRING(_PHONE);
       }
       return false;
       break;
