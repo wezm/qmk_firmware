@@ -17,6 +17,7 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
 #include "wezm_private.h"
+#include "keymap_steno.h"
 
 #define LT_TAB LT(_FUNCTION, KC_TAB)
 #define SFT_ENT SFT_T(KC_ENT)
@@ -27,6 +28,7 @@ enum preonic_layers {
   _RAISE,
   _ADJUST,
   _FUNCTION,
+  _STENO,
 };
 
 enum preonic_keycodes {
@@ -42,8 +44,13 @@ enum preonic_keycodes {
   REGRDS, // E-mail sign off
   PHONE, // Phone number
   FNLOCK,
-  FNEXIT
+  FNEXIT,
+  STENO,
+  STN_EXT, // Exit steno
 };
+
+#define ST_BOLT QK_STENO_BOLT
+#define ST_GEM  QK_STENO_GEMINI
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -123,11 +130,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
+
 [_ADJUST] = LAYOUT_preonic_grid( \
   RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_PSCR, \
   DEBUG,   KC_F11,  KC_F12,  _______, _______, _______, _______, TERM_ON, TERM_OFF,_______, _______, FNLOCK,  \
-  _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______, _______, _______, \
-  _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______, \
+  _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______, STENO,   _______, \
+  _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, ST_BOLT, ST_GEM,  \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______  \
 ),
 
@@ -150,13 +158,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, LNAME,   _______, REGRDS,  KC_UP,   _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT  \
+),
+
+
+/* Steno layer
+ * ,-----------------------------------------------------------------------------------.
+ * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |   #  |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |  FN  |   S  |   T  |   P  |   H  |   *  |   *  |   F  |   P  |   L  |   T  |   D  |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |   S  |   K  |   W  |   R  |   *  |   *  |   R  |   B  |   G  |   S  |   Z  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Exit |      |      |   A  |   O  |             |   E  |   U  |  PWR | RES1 | RES2 |
+ * `-----------------------------------------------------------------------------------'
+ */
+
+[_STENO] = LAYOUT_preonic_grid( \
+  STN_N1,  STN_N2,  STN_N3,  STN_N4,  STN_N5,  STN_N6,  STN_N7,  STN_N8,  STN_N9,  STN_NA,  STN_NB,  STN_NC, \
+  STN_N1,  STN_N2,  STN_N3,  STN_N4,  STN_N5,  STN_N6,  STN_N7,  STN_N8,  STN_N9,  STN_NA,  STN_NB,  STN_NC, \
+  STN_FN,  STN_S1,  STN_TL,  STN_PL,  STN_HL,  STN_ST1, STN_ST3, STN_FR,  STN_PR,  STN_LR,  STN_TR,  STN_DR, \
+  XXXXXXX, STN_S2,  STN_KL,  STN_WL,  STN_RL,  STN_ST2, STN_ST4, STN_RR,  STN_BR,  STN_GR,  STN_SR,  STN_ZR, \
+  STN_EXT, XXXXXXX, XXXXXXX, STN_A,   STN_O,   XXXXXXX, XXXXXXX, STN_E,   STN_U,   STN_PWR, STN_RE1, STN_RE2 \
 )
 
 };
 
 #ifdef AUDIO_ENABLE
   float fnlock_song[][2]     = SONG(E__NOTE(_F5));
-  float fnlock_off_song[][2]  = SONG(E__NOTE(_C4));
+  float fnlock_off_song[][2] = SONG(E__NOTE(_C4));
+  float steno_song[][2]      = SONG(PLOVER_SOUND);
+  float steno_gb_song[][2]   = SONG(PLOVER_GOODBYE_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -206,6 +239,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           PLAY_SONG(fnlock_off_song);
         #endif
         layer_off(_FUNCTION);
+      }
+      return false;
+      break;
+    case STENO:
+      if (!record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          stop_all_notes();
+          PLAY_SONG(steno_song);
+        #endif
+        layer_on(_STENO);
+      }
+      return false;
+      break;
+    case STN_EXT:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_SONG(steno_gb_song);
+        #endif
+        layer_off(_STENO);
       }
       return false;
       break;
