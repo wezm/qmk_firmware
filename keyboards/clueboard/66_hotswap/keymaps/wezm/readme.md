@@ -1,8 +1,11 @@
-![Clueboard Layout Image](http://i.imgur.com/7Capi8W.png)
+wezm's Clueboard Layout
+=======================
 
-# Default Clueboard 66% Hotswap Layout
+    make clueboard/66_hotswap/gen1:wezm
+    sudo make clueboard/66_hotswap/gen1:wezm:dfu-util
 
-This is the default layout that comes flashed on every Clueboard. For the most
-part it's a straightforward and easy to follow layout. The only unusual key is 
-the key in the upper left, which sends Escape normally, but Grave when any of
-the Ctrl, Alt, or GUI modifiers are held down.
+Arch avr-gcc seems to be too new so use Docker instead:
+
+    ./util/docker_build.sh clueboard/66_hotswap/gen1:wezm
+    sleep 5; ./util/docker_build.sh clueboard/66_hotswap/gen1:wezm:dfu-util
+    Fn+S+R (to enter DFU)
